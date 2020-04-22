@@ -13,7 +13,7 @@ public class hellow {
     @GetMapping("/dept/{id}")
 
     public String getDept(@PathVariable("id") Integer id){
-        return "SUCCESS"+id;
+        return "Gitub"+id;
     }
 
 }
