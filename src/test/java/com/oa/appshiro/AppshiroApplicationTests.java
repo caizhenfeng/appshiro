@@ -102,6 +102,8 @@ class AppshiroApplicationTests {
             return;
         }
 
+
+
         //test a typed permission (not instance-level)
         // 测试用户是否具备某一个行为. 调用 Subject 的 isPermitted() 方法。
         if (currentUser.isPermitted("lightsaber:weild")) {
