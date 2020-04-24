@@ -9,11 +9,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @create 2020-04-23 17:04
  */
 @Controller()
-@RequestMapping("/home")
+
 public class WebController {
 
-    @RequestMapping("login.do")
+    @RequestMapping("/login")
     public String log_in(){
         return "login";
+    }
+    @RequestMapping("/index")
+    public String indexn(){
+        return "indexn";
     }
 }
