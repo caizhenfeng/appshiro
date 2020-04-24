@@ -1,5 +1,6 @@
 package com.oa.appshiro.Config;
 import com.oa.appshiro.Bean.MyRealm;
+import com.sun.media.jfxmedia.logging.Logger;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,10 +42,10 @@ public class ShiroConfig {
         filterMap.put("/logout", "logout");
 
         // 过滤链定义，从上向下顺序执行，一般将/*放在最下边
-        filterMap.put("/*", "authc");
+        filterMap.put("/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
-
+        System.out.println("shiro-controller");
         return shiroFilterFactoryBean;
     }
 
