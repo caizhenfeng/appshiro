@@ -1,4 +1,4 @@
-package com.oa.appshiro.Bean;
+package com.oa.appshiro.entity;
 
 import java.util.Date;
 import java.io.Serializable;

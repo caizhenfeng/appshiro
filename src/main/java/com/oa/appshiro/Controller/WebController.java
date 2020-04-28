@@ -18,6 +18,6 @@ public class WebController {
     }
     @RequestMapping("/index")
     public String indexn(){
-        return "indexn";
+        return "index";
     }
 }
