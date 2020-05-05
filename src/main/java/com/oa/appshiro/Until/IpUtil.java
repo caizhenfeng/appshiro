@@ -17,25 +17,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.oa.appshiro.consts;
+package com.oa.appshiro.Until;
+
+import org.springframework.util.StringUtils;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
- * 程序中公用的常量类
+ * 获取IP的工具类
+ *
+ * @author yadong.zhang (yadong.zhang0415(a)gmail.com)
+ * @version 1.0
+ * @website https://www.zhyd.me
+ * @date 2018/4/18 11:48
+ * @since 1.0
  */
-public class CommonConst {
-    /**
-     * 安全密码(UUID生成)，作为盐值用于用户密码的加密
-     */
-    public static final String ZYD_SECURITY_KEY = "929123f8f17944e8b0a531045453e1f1";
+public class IpUtil {
 
     /**
-     * 程序默认的错误状态码
+     * 获取真实IP
+     *
+     * @param request
+     * @return
      */
-    public static final int DEFAULT_ERROR_CODE = 500;
+    public static String getRealIp(HttpServletRequest request) {
+        String ip = request.getHeader("x-forwarded-for");
+        return checkIp(ip) ? ip : (
+                checkIp(ip = request.getHeader("Proxy-Client-IP")) ? ip : (
+                        checkIp(ip = request.getHeader("WL-Proxy-Client-IP")) ? ip :
+                                request.getRemoteAddr()));
+    }
 
     /**
-     * 程序默认的成功状态码
+     * 校验IP
+     *
+     * @param ip
+     * @return
      */
-    public static final int DEFAULT_SUCCESS_CODE = 200;
-
+    private static boolean checkIp(String ip) {
+        return !StringUtils.isEmpty(ip) && !"unknown".equalsIgnoreCase(ip);
+    }
 }

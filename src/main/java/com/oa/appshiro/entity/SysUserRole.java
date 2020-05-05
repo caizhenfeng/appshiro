@@ -4,15 +4,18 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.oa.appshiro.Object.AbstractDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import javax.persistence.Transient;
-import java.util.HashSet;
-import java.util.Set;
 
-@TableName("sys_role")
+import java.util.List;
+
+@TableName("sys_user_role")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class SysRole extends AbstractDO {
-    private String name;
-    private String description;
-    private Boolean available;
+public class SysUserRole extends AbstractDO {
+    private Long user_id;
+    private Long role_id;
+    @TableField(exist = false)
+    private SysRole sysRole;
+    @TableField(exist = false)
+    private List<SysRoleResources> nodes;
+
 }

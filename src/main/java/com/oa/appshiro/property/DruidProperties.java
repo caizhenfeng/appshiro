@@ -17,25 +17,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.oa.appshiro.consts;
+package com.oa.appshiro.property;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+
+import java.util.List;
 
 /**
- * 程序中公用的常量类
+ * druid属性
+ *
+ * @author yadong.zhang (yadong.zhang0415(a)gmail.com)
+ * @version 1.0
+ * @website https://www.zhyd.me
+ * @date 2018/5/17 11:13
+ * @since 1.0
  */
-public class CommonConst {
-    /**
-     * 安全密码(UUID生成)，作为盐值用于用户密码的加密
-     */
-    public static final String ZYD_SECURITY_KEY = "929123f8f17944e8b0a531045453e1f1";
-
-    /**
-     * 程序默认的错误状态码
-     */
-    public static final int DEFAULT_ERROR_CODE = 500;
-
-    /**
-     * 程序默认的成功状态码
-     */
-    public static final int DEFAULT_SUCCESS_CODE = 200;
-
+@Configuration
+@ConfigurationProperties(prefix = "zyd.druid")
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Order(-1)
+public class DruidProperties {
+    private String username;
+    private String password;
+    private String servletPath = "/druid/*";
+    private Boolean resetEnable = false;
+    private List<String> allowIps;
+    private List<String> denyIps;
 }

@@ -18,10 +18,9 @@
  * SOFTWARE.
  */
 package com.oa.appshiro.Shiro.credentials;
-
-import com.oa.appshiro.Service.SysUserService;
+import com.oa.appshiro.Service.impl.SysUserServiceImpl;
 import com.oa.appshiro.consts.SessionConst;
-import com.oa.appshiro.entity.User;
+import com.oa.appshiro.entity.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AccountException;
@@ -31,9 +30,7 @@ import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-
 import java.util.concurrent.TimeUnit;
-
 /**
  * Shiro-密码输入错误的状态下重试次数的匹配管理
  *
@@ -57,13 +54,13 @@ public class RetryLimitCredentialsMatcher extends CredentialsMatcher {
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
-    private SysUserService userService;
+    private SysUserServiceImpl userService;
 
     @Override
     public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
         Long userId = (Long) info.getPrincipals().getPrimaryPrincipal();
-        User user = userService.getByPrimaryKey(userId);
-        String username = user.getUsername();
+        SysUser sysUser = userService.getByPrimaryKey(userId);
+        String username = sysUser.getUsername();
         // 访问一次，计数一次
         ValueOperations<String, String> opsForValue = redisTemplate.opsForValue();
         String loginCountKey = SHIRO_LOGIN_COUNT + username;
@@ -93,13 +90,13 @@ public class RetryLimitCredentialsMatcher extends CredentialsMatcher {
         //清空登录计数
         redisTemplate.delete(loginCountKey);
         try {
-            userService.updateUserLastLoginInfo(user);
+            userService.updateUserLastLoginInfo(sysUser);
         } catch (Exception e) {
             e.printStackTrace();
         }
         // 当验证都通过后，把用户信息放在session里
         // 注：User必须实现序列化
-        SecurityUtils.getSubject().getSession().setAttribute(SessionConst.USER_SESSION_KEY, user);
+        SecurityUtils.getSubject().getSession().setAttribute(SessionConst.USER_SESSION_KEY, sysUser);
         return true;
     }
 }

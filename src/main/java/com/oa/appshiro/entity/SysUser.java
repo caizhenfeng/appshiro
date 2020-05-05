@@ -1,22 +1,18 @@
 package com.oa.appshiro.entity;
-
-import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.enums.IdType;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.oa.appshiro.Until.PasswordUtil;
+import com.oa.appshiro.Object.AbstractDO;
 import lombok.Data;
-import org.springframework.util.StringUtils;
+import lombok.EqualsAndHashCode;
 
-import java.util.Date;
-import java.io.Serializable;
+import javax.persistence.Transient;
+import java.util.*;
+
 @TableName("sys_user")
 @Data
-public class User implements Serializable {
-    private static final long serialVersionUID = 807616950799285040L;
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
-    
+@EqualsAndHashCode(callSuper = false)
+public class SysUser extends AbstractDO {
     private String username;
     /**
     * 登录密码
@@ -80,18 +76,8 @@ public class User implements Serializable {
     * 用户状态
     */
     private String status;
-    /**
-    * 注册时间
-    */
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
-    private Date create_time;
-    /**
-    * 更新时间
-    */
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone="GMT+8")
-    private Date update_time;
-
-
-
+    //多角色
+    @TableField(exist = false)
+    private List<SysUserRole> SysUserRole=new ArrayList<SysUserRole>();
 
 }

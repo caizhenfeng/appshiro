@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller
 @RequestMapping("/shiro")
 public class ShiroHandler {
+
+
     @RequestMapping("/log_in.do")
     public String login(@RequestParam("username") String username,
                         @RequestParam("password") String password){
